@@ -9,6 +9,25 @@ import java.util.Scanner;
 
 public abstract class ConsoleMenu {
 	/**
+	 * item output position
+	 * @see #POSTION_LEFT
+	 * @see #POSTION_RIGHT
+	 * */
+	public static final int POSTION_CENTER = 0;
+	/**
+	 * item output position
+	 * @see #POSTION_CENTER
+	 * @see #POSTION_RIGHT
+	 * */
+	public static final int POSTION_LEFT = 1;
+	/**
+	 * item output position
+	 * @see #POSTION_LEFT
+	 * @see #POSTION_CENTER
+	 * */
+	public static final int POSTION_RIGHT = 2;
+	
+	/**
 	 * print menu at console
 	 * @param items all choices to show
 	 * @param title title of this menu
@@ -16,19 +35,18 @@ public abstract class ConsoleMenu {
 	 */
 	public static int showMenu(String[] items, String title){
 		int maxlen = title.length();
-		int i;
 		for(String s:items)
 			if(s.length()+2 > maxlen) maxlen = s.length();
 		int ll = maxlen+8;
 		printSep(ll);         // "*********"
 		title = regainStr(title);
-		printItem(title, ll); // "* title *"
+		printItem(title, ll, ConsoleMenu.POSTION_CENTER); // "* title *"
 		printSep(ll);         // "*********"
 		int no = 1;
 		for(String s:items){
 			s = regainStr(s);
 			s = String.valueOf(no)+"."+s;
-			printItem(s, ll); // "* item  *"
+			printItem(s, ll, ConsoleMenu.POSTION_LEFT); // "* item  *"
 			no ++;
 		}
 		printSep(ll);
@@ -52,13 +70,13 @@ public abstract class ConsoleMenu {
 		return choice;
 	}
 	
-	private static void printItem(String s, int len){
+	private static void printItem(String s, int len, int postion){
 		int i;
 		System.out.print("*");
 		for(i=0; i<(len-s.length())/2-1; i++) System.out.print(" ");    // "* s *"
 		System.out.print(s);
 		for(i+=s.length(); i<len-1; i++) System.out.print(" ");
-		System.out.println("*");
+		System.out.println("*"); 
 	}
 	private static void printSep(int len){
 		for(int i=0; i<len+1; i++)
@@ -70,6 +88,14 @@ public abstract class ConsoleMenu {
 			return s+" ";
 		else
 			return s;
+	}
+	
+	
+	public static void main(String[] args){
+		while(true){
+			String[] items = {"Hello", "Hi", "Me", "Oh..."};
+			System.out.println(ConsoleMenu.showMenu(items, "Test Menu"));
+		}
 	}
 	
 }
